@@ -20,7 +20,7 @@ class ClassLoader
       $file = $dir . '/' . $class . '.php';
       if (is_readable($file)) {
         require $file;
-      return;
+        return;
       }
     }
   }
