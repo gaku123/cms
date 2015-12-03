@@ -4,47 +4,27 @@ class Request
 {
   public function isPost()
   {
-    if ($_SERVER['REQUEST_METHOD']==='POST') {
-      return true;
-    }
-
-    return false;
+    return ($_SERVER['REQUEST_METHOD'] === 'POST') ? true : false;
   }
 
   public function getGet($name, $default = null)
   {
-    if (isset($_GET[$name])) {
-      return $_GET[$name];
-    }
-
-    return $default;
+    return (isset($_GET[$name])) ? $_GET[$name] : $default;
   }
 
   public function getPost($name, $default = null)
   {
-    if (isset($_POST[$name])) {
-      return $_POST[$name];
-    }
-
-    return $default;
+    return (isset($_POST[$name])) ? $_POST[$name] : $default;
   }
 
   public function getHost()
   {
-    if (!empty($_SERVER['HTTP_HOST'])) {
-      return $_SERVER['HTTP_HOST'];
-    }
-
-    return $_SERVER['SERVER_NAME'];
+    return (!empty($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
   }
 
   public function isSsl()
   {
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-      return ture;
-    }
-
-    return false;
+    return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? ture : false;
   }
 
   public function getRequestUri()
@@ -57,9 +37,9 @@ class Request
     $script_name = $_SERVER['SCRIPT_NAME'];
     $request_uri = $this->getRequestUri();
 
-    if (0 === strpos($request_uri, $script_name)) { #$request_uri includes file name like "index.php"
+    if (strpos($request_uri, $script_name) === 0) { #$request_uri includes file name like "index.php"
       return $script_name;
-    } else if (0 === strpos($request_uri, dirname($script_name))) {
+    } else if (strpos($request_uri, dirname($script_name)) === 0) {
       return rtrim(dirname($script_name), '/');
     }
 
@@ -71,7 +51,7 @@ class Request
     $base_url = $this->getBaseUrl();
     $request_uri = $this->getRequestUri();
 
-    if (false !== ($pos = strpos($request_uri, '?'))) {
+    if (($pos = strpos($request_uri, '?')) !== false) {
       $request_uri = substr($request_uri, 0, $pos);
     }
 

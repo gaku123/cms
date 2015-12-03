@@ -11,7 +11,7 @@ echo "<br />";
 echo $tmp->getBaseUrl() . "<br />";
 echo $tmp->getPathInfo();
 
-echo dirname(__FILE__).'/core';
+echo dirname(__FILE__) . '/core';
 echo "<br />";
 echo $_SERVER['SCRIPT_NAME'];
 echo "<br />";
