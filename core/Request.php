@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * ユーザのリクエストを制御するクラス
+ */
 class Request
 {
   public function isPost()
@@ -37,7 +40,7 @@ class Request
     $script_name = $_SERVER['SCRIPT_NAME'];
     $request_uri = $this->getRequestUri();
 
-    if (strpos($request_uri, $script_name) === 0) { #$request_uri includes file name like "index.php"
+    if (strpos($request_uri, $script_name) === 0) {
       return $script_name;
     } else if (strpos($request_uri, dirname($script_name)) === 0) {
       return rtrim(dirname($script_name), '/');
