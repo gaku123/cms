@@ -1,4 +1,8 @@
 <?php
+/**
+ * アプリケーション立ち上げ時の処理。
+ * 作成したClassLoaderをオートロードに登録する。
+ */
 
 require 'core/ClassLoader.php';
 
