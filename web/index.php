@@ -2,18 +2,22 @@
 
 require '../bootstrap.php';
 $tmp = new Request;
+echo "getRequestUri()<br />";
 echo $tmp->getRequestUri();
+echo "<br />isPost()<br />";
 echo $tmp->isPost();
+echo "<br />getHost()<br />";
 echo $tmp->getHost();
+echo "<br />isSsl()<br />";
 echo $tmp->isSsl();
-
-echo "<br />";
-echo $tmp->getBaseUrl() . "<br />";
+echo "<br />getBaseUrl()<br />";
+echo $tmp->getBaseUrl();
+echo "<br />getPathInfo()<br />";
 echo $tmp->getPathInfo();
-
+echo "<br />dirname(__FILE__) . '/core'<br />";
 echo dirname(__FILE__) . '/core';
-echo "<br />";
+echo "<br />\$SERVER['SCRIPT_NAME']<br />";
 echo $_SERVER['SCRIPT_NAME'];
-echo "<br />";
+echo "<br />dirname(...)<br />";
 echo dirname($_SERVER['SCRIPT_NAME']);
 
