@@ -21,3 +21,13 @@ echo $_SERVER['SCRIPT_NAME'];
 echo "<br />dirname(...)<br />";
 echo dirname($_SERVER['SCRIPT_NAME']);
 
+echo "<br />";
+$router = new Router(array(
+            '/account' => array('controller' => 'account', 'action' => 'index'),
+            '/account/:action' => array('controller' => 'account'),
+            ));
+echo "<br />routes<br />";
+var_dump($router->getRoutes()); echo "<br />";
+var_dump($router->resolve('/account')); echo "<br />";
+var_dump($router->resolve('/account/signup')); echo "<br />";
+
