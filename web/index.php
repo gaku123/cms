@@ -31,3 +31,10 @@ var_dump($router->getRoutes()); echo "<br />";
 var_dump($router->resolve('/account')); echo "<br />";
 var_dump($router->resolve('/account/signup')); echo "<br />";
 
+echo "<br />response<br />";
+$response = new Response;
+$response->setContent('hello <br />');
+$response->setHttpHeader("test", "value");
+$response->setStatusCode("200", "OK");
+$response->send();
+
