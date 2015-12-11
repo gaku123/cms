@@ -38,3 +38,13 @@ $response->setHttpHeader("test", "value");
 $response->setStatusCode("200", "OK");
 $response->send();
 
+echo "<br />database<br />";
+$db_manager = new DbManager();
+$db_manager->connect('master', array(
+  'dsn' => 'mysql:dbname=test;host=localhost',
+  'user' => 'atm-user',
+  'password' => '',
+));
+$db_manager->getConnection('master');
+echo "<br />";
+var_dump($db_manager->getConnection());
