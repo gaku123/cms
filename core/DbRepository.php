@@ -43,6 +43,8 @@ abstract class DbRepository
 
   public function fetch($sql, $params = array())
   {
+    //fetch()の引数は返り値の形式を指定する。
+    //PDO::FETCH_ASSOCはカラム名で添え字を付けた配列を返す。
     return $this->execute($sql, $params)->fetch(PDO::FETCH_ASSOC);
   }
 
