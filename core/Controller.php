@@ -42,4 +42,98 @@ abstract class Controller
     return $content;
   }
 
+  /**
+   * ビュークラスにおけるビューファイルの読み込み処理をラッピングした処理。
+   */
+  protected function render($variables = array(), $template = null, $layout = 'layout')
+  {
+    $defaults = array(
+      'request'  => $this->request,
+      'base_url' => $this->request->getBaseUrl(),
+      'session'  => $this->session,
+    );
+
+    $view = new View($this->application->getViewDir(), $defaults);
+
+    //ビューファイルは指定しなければアクション名と同じとして読み込まれる。
+    //Viewクラスのrenderで最終的にアクション名.phpとなって読み込まれる。
+    if (is_null($template)) {
+      $template = $this->action_name;
+    }
+
+    $path = $this->controller_name . '/' . $template;
+
+    return $view->render($path, $variables, $layout);
+  }
+
+  /**
+   * 404エラー画面へリダイレクトする。
+   * Applicationクラスのrunにて例外がキャッチされる。
+   */
+  protected function forward404()
+  {
+    throw new HttpNotFoundException('Forwarded 404 page from '
+      . $this->controller_name . '/' . $this->action_name);
+  }
+
+  /**
+   * 任意のURLへリダイレクトする。
+   * ちなみに、本来は303のステータスコードを返すのが正しい。
+   */
+  protected function redirect($url)
+  {
+    if (!preg_match('#https?://#', $url)) {
+      $protocol = $this->request->isSsl() ? 'https://' : 'http://';
+      $host     = $this->request->getHost();
+      $base_url = $this->request->getBaseUrl();
+
+      $url = $protocol . $host . $base_url . $url;
+    }
+
+    $this->response->setStatusCode(302, 'Found');
+    $this->response->setHttpHeader('Location', $url);
+  }
+
+  /**
+   * トークンを生成し、セッションに格納した上でトークンを返す。
+   *
+   * 複数画面を開いた場合に備えて、トークンは10個保持できるようにし、
+   * 既に10個保持している場合は古いものから消していく。
+   */
+  protected function generateCsrfToken($form_name)
+  {
+    $key = 'csrf_tokens/' . $form_name;
+    $tokens = $this->session->get($key, array());
+    if (count($tokens) >= 10) {
+      array_shift($tokens);
+    }
+
+    $token = sha1($form_name . session_id() . microtime());
+    $tokens[] = $token;
+
+    $this->session->set($key, $tokens);
+
+    return $token;
+  }
+
+  /**
+   * リクエストされてきたトークンとセッションに格納されたトークンを
+   * 比較した結果を返し、同時にセッションからトークンを削除する。
+   */
+  protected function checkCsrfToken($form_name, $token)
+  {
+    $key = 'csrf_tokens/' . $form_name;
+    $tokens = $this->session->get($key, array());
+
+    if (($pos = array_search($token, $tokens, true)) !== false) {
+      unset($tokens[$pos]);
+      $this->session->set($key, $tokens);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  
 }
