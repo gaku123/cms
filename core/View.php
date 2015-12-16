@@ -12,22 +12,33 @@ class View
     $this->defaults = $defaults;
   }
 
+  /**
+   * レイアウトファイル側に値を渡したい場合、ビューファイル内からこのメソッドを
+   * 呼び出せば、例えばページタイトルなどを渡すことができる。
+   */
   public function setLayoutVar($name, $value)
   {
     $this->layout_variables[$name] = $value;
   }
 
+  /**
+   * extract変数で連想配列を展開するので、変数名衝突回避のため、
+   * ここで定義する変数の先頭にアンダースコアを付けている。
+   */
   public function render($_path, $_variables = array(), $_layout = false)
   {
     $_file = $this->base_dir . '/' . $path . '.php';
 
     extract(array_merge($this->defaults, $_variables));
 
+    //アウトプットバッファリングを開始
     ob_start();
+    //バッファの自動フラッシュを無効にする。
     ob_implicit_flush(0);
 
     require $_file;
 
+    //バッファの取り出しとバッファリング終了
     $content = ob_get_clean();
 
     if ($_layout) {
