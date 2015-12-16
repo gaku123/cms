@@ -12,6 +12,11 @@ abstract class Controller
   protected $response;
   protected $session;
   protected $db_manager;
+  /**
+   * ログインが必要なアクションを指定する。
+   * @var Array $auth_actions
+   */
+  protected $auth_actions = array(); 
 
   public function __construct($application)
   {
@@ -35,6 +40,14 @@ abstract class Controller
     $action_method = $action . 'Action';
     if (!method_exists($this, $action_method)) {
       $this->forward404();
+    }
+
+    /**
+     * アクションを呼び出す前に、ログインが必要なアクションかどうかのチェックをする。
+    */
+    if ($this->needsAuthentication($action) && !$this->session->isAuthenticated())
+    {
+      throw new UnauthorizedActionException();
     }
 
     $content = $this->$action_method($params);
@@ -135,5 +148,18 @@ abstract class Controller
     return false;
   }
 
-  
+  /**
+   * ログインが必要かどうかの判定を行うメソッド。
+   * アクション名を指定し、$auth_actionsプロパティ値を元に指定したアクションが
+   * ログインが必須かどうかの判定をする。
+   */
+  protected function needsAuthentication($action)
+  {
+    if ($this->auth_actions === true
+        || (is_array($this->auth_actions) && in_array($action, $this->auth_actions))
+    ) { return true; }
+
+    return false;
+  }
+
 }
