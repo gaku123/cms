@@ -64,7 +64,7 @@ abstract class Application
   public function getSession()       { return $this->session; }
   public function getDbManager()     { return $this->db_manager; }
   public function getControllerDir() { return $this->getRootDir() . '/controllers'; }
-  public function getViewDir()       { return $this->getRootDir() . '/view'; }
+  public function getViewDir()       { return $this->getRootDir() . '/views'; }
   public function getModelDir()      { return $this->getRootDir() . '/models'; }
   public function getWebDir()        { return $this->getRootDir() . '/web'; }
 
@@ -142,12 +142,11 @@ abstract class Application
     $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
     $this->response->setContent(<<<EOF
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>404</title>
+<meta charset="utf-8" />
+<title>404</title>
 </head>
 <body>
     {$message}
