@@ -8,7 +8,7 @@ class AwitterApplication extends Application
   {
     return array(
       '/'
-        => array('controller' => 'account', 'action' => 'index'),
+        => array('controller' => 'tweet', 'action' => 'index'),
     );
   }
 
