@@ -52,6 +52,7 @@ class Session
   /**
    * セッションIDを新しく発行する。
    * これも1度のリクエストで複数呼び出されないよう静的プロパティでチェックしている。
+   * @param bool デフォルトでtrueで、古いセッションを削除する。
    */
   public function regenerate($destroy = true)
   {
@@ -70,6 +71,7 @@ class Session
      */
     $this->set('_authenticated', (bool)$bool);
 
+    // セッション固定攻撃対策
     $this->regenerate();
   }
 
