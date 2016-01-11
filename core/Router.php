@@ -22,6 +22,11 @@
  */
 class Router
 {
+  /**
+   * ルーティング定義配列が格納される。
+   * キーは'/account/signup/のようなパスで、値であるルーティング定義も配列で、
+   * array('controller'=>'controller name', 'action'=>'action name')のような形
+   */
   protected $routes;
 
   public function __construct($definitions)
@@ -50,7 +55,7 @@ class Router
         }
         $tokens[$i] = $token;
       }
-
+      //コロンを含まない場合は$urlと$patternが等しくなる。
       $pattern = '/' . implode('/', $tokens);
       $routes[$pattern] = $params;
     }
@@ -61,9 +66,10 @@ class Router
   /**
    * マッチングを行う。
    *
+   * preg_match()ではパターンの一部の正規表現に中にサブパターンを含めることができる。
    * /account/(?P<action>[^/]+)が登録されていると/account/signupがマッチング。
-   * [^/]+は/以外の文字が1字以上続く意味。
-   *@param string $path_info PATH_INFOを受け取る
+   * サブパターンにマッチングするのはsignupの部分で、actionをキーに格納される。
+   * @param string $path_info PATH_INFOを受け取る
    */
   public function resolve($path_info)
   {
@@ -72,7 +78,7 @@ class Router
     }
 
     foreach ($this->routes as $pattern => $params) {
-      // #^word$#の形になるので完全一致
+      // パターンは下では#^patern$#となり、完全一致を指定している。
       if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {
         $params = array_merge($params, $matches);
 

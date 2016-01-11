@@ -4,6 +4,8 @@ class TweetController extends Controller
 { 
   public function indexAction()
   {
-    return $this->render();
+    $user = $this->session->get('user');
+
+    return $this->render(array('user'=>$user));
   }
 } 
