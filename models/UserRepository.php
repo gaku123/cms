@@ -9,11 +9,33 @@ class UserRepository extends DbRepository
    */
   public function register($user_name, $password)
   {
-    $errors = array_merge($this->validateUserName($user_name),
-      $this->validatePassword($password));
+    $errors = $this->validateUserName($user_name);
+    if(count($errors) === 0 && !$this->isUniqueUserName($user_name)) {
+      $errors[] = 'ユーザIDは既に使用されています';
+    }
+
+    $errors = array_merge($errors, $this->validatePassword($password));
 
     if(count($errors) === 0) {
       $this->insert($user_name, $password);
+    }
+
+    return $errors;
+  }
+
+  /**
+   * ログイン判定
+   */
+  public function authenticate($user_name, $password)
+  {
+    $errors = array_merge($this->validateUserName($user_name),
+      $this->validatePassword($password));
+
+    if (count($errors) === 0) {
+      $user = $this->fetchByUserName($user_name);
+      if (!$user || !$this->checkPassword($password, $user['password'])) {
+        $errors[] = "ユーザIDまたはパスワードが不正です。";
+      }
     }
 
     return $errors;
@@ -30,10 +52,7 @@ class UserRepository extends DbRepository
       $errors[] = 'ユーザIDを入力してください。';
     } else if (!preg_match('/^\w{4,20}$/', $user_name)) {
       $errors[] = 'ユーザIDは半角英数字およびアンダースコアを4~20文字以内で入力してください';
-    } else if (!$this->isUniqueUserName($user_name)) {
-      $errors[] = 'ユーザIDは既に使用されています';
     }
-
     return $errors;
   }
 
@@ -119,12 +138,12 @@ class UserRepository extends DbRepository
   /**
    * hashPassword()で生成したパスワードをチェックする。
    */
-  public function checkPassword($password)
+  public function checkPassword($raw, $hashed)
   {
-    $hashed = blowfish($raw, 10);
+    $hashinfo = substr($hashed, 0, 29);
 
     // パスワードを検証する
-    if (crypt($str, $hash) === $hash) {
+    if (crypt($raw, $hashinfo) === $hashed) {
       return true;
     }
 
