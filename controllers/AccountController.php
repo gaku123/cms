@@ -52,4 +52,68 @@ class AccountController extends Controller
     ), 'signup');
   }
 
+  public function loginAction()
+  {
+    // すでにログインしていたらトップページへ
+    if ($this->session->isAuthenticated()) {
+      return $this->redirect('/');
+    }
+
+    return $this->render(array(
+      'user_name' => '',
+      'password'  => '',
+      '_token'    => $this->generateCsrfToken('account/login'),
+    ));
+  }
+
+  public function logoutAction()
+  {
+    $this->session->clear();
+    $this->session->setAuthenticated(false);
+
+    return $this->redirect('/');
+  }
+
+  public function AuthenticateAction()
+  {
+ 
+    // POSTじゃなかったらはじく
+    if (!$this->request->isPost()) {
+      $this->forward404();
+    }
+
+    // すでにログインしていたらトップページへ
+    if ($this->session->isAuthenticated()) {
+      return $this->redirect('/');
+    }
+
+    // CSRF対策
+    $token = $this->request->getPost('_token');
+    if (!$this->checkCsrfToken('account/login', $token)) {
+      return $this->redirect('/account/login');
+    }
+
+    $user_name = $this->request->getPost('user_name');
+    $password = $this->request->getPost('password');
+
+    // バリデーションはUserモデルに記述。
+    $errors = $this->db_manager->get('User')->authenticate($user_name, $password);
+    // エラーがない場合はアカウントが登録されているので、ログイン状態にする。
+    if (count($errors) === 0) {
+      $this->session->setAuthenticated(true);
+      $user = $this->db_manager->get('User')->fetchByUserName($user_name);
+      $this->session->set('user', $user);
+      return $this->redirect('/');
+    }
+
+    // エラーがある場合はアカウント登録画面へ
+    return $this->render(array(
+      'user_name' => $user_name,
+      'password'  => $password,
+      'errors'    => $errors,
+      '_token'    => $this->generateCsrfToken('account/login'),
+    ), 'login');
+  }
+
+
 }

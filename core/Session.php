@@ -8,6 +8,7 @@ class Session
 {
   protected static $sessionStarted = false;
   protected static $sessionIdRegenerated = false;
+  const AUTHENTICATED_FLAG_NAME = '_authenticated';
 
   public function __construct()
   {
