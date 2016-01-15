@@ -11,6 +11,8 @@ class AwitterApplication extends Application
         => array('controller' => 'tweet', 'action' => 'index'),
       '/account/:action'
         => array('controller' => 'account'),
+      '/tweet/:action'
+        => array('controller' => 'tweet'),
     );
   }
 
