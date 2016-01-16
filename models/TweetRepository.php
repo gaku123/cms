@@ -52,8 +52,10 @@ class TweetRepository extends DbRepository
   }
 
   /**
-   * TweetテーブルとUserテーブルを表結合し、
-   * Tweetテーブル全てとUserテーブルのuser_nameを選択して返す。
+   * 指定されたユーザのツイートとフォローしているユーザのツイートを返す。
+   *
+   * tweetテーブルとuserテーブルを表結合し、
+   * tweetテーブル全てとuserテーブルのuser_nameを選択して返す。
    */
   public function fetchAllPersonalTweetsByUserId($user_id)
   {
@@ -64,4 +66,47 @@ class TweetRepository extends DbRepository
 
     return $this->fetchAll($sql, array(':user_id' => $user_id));
   }
+
+  /**
+   * 全てのユーザのツイートを返す。
+   */
+  public function fetchAllTweets()
+  {
+    $sql = "
+      select t.*, u.user_name from tweet t join user u on t.user_id = u.id
+      order by t.created_at desc
+    ";
+
+    return $this->fetchAll($sql);
+  }
+
+  /**
+   * 指定されたidのユーザのツイートとユーザIDを返す。
+   *
+   * tweetテーブルとuserテーブルを表結合し、
+   * tweetテーブル全てとuserテーブルのuser_nameを選択して返す。
+   */
+  public function fetchAllByUserId($user_id)
+  {
+    $sql = "
+      select t.*, u.user_name from tweet t join user u on t.user_id = u.id
+      where u.id = :user_id order by t.created_at desc
+    ";
+
+    return $this->fetchAll($sql, array(':user_id' => $user_id));
+  }
+
+  public function fetchByIdAndUserName($id, $user_name)
+  {
+    $sql = "
+      select t.*, u.user_name from tweet t join user u on t.user_id = u.id
+      where u.user_name = :user_name and t.id = :id
+    ";
+
+    return $this->fetch($sql, array(
+      ':user_name' => $user_name,
+      ':id' => $id,
+    ));
+  }
+
 }
