@@ -13,6 +13,10 @@ class AwitterApplication extends Application
         => array('controller' => 'account'),
       '/tweet/:action'
         => array('controller' => 'tweet'),
+      '/tweet/show/:user_name'
+        => array('controller' => 'tweet', 'action' => 'user'),
+      '/tweet/show/:user_name/:id'
+        => array('controller' => 'tweet', 'action' => 'show'),
     );
   }
 

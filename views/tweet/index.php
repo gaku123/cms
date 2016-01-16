@@ -24,15 +24,9 @@
   <a href="<?php echo $base_url; ?>/account/signup">アカウント登録</a>
 <?php endif; ?>
 
-<?php if($session->isAuthenticated()): ?>
-  <div id="tweets">
-  <?php foreach ($tweets as $tweet): ?>
-    <div class="tweet">
-    <?php echo $this->escape($tweet['user_name']); ?>
-    <?php echo $this->escape($tweet['body']); ?>
-    </div>
-  <?php endforeach; ?>
-  </div>
-<?php endif; ?>
 
-
+<div id="tweets">
+<?php foreach ($tweets as $tweet): ?>
+  <?php echo $this->render('tweet/tweet', array('tweet' => $tweet)); ?>
+<?php endforeach; ?>
+</div>
