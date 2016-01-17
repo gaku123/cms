@@ -2,6 +2,8 @@
 
 class AccountController extends Controller
 {
+  protected $auth_actions = array('logout');
+
   /**
    * アカウント登録画面
    */
@@ -52,6 +54,9 @@ class AccountController extends Controller
     ), 'signup');
   }
 
+  /**
+   * ログイン画面の表示
+   */
   public function loginAction()
   {
     // すでにログインしていたらトップページへ
@@ -66,6 +71,9 @@ class AccountController extends Controller
     ));
   }
 
+  /**
+   * ログアウト処理をする
+   */
   public function logoutAction()
   {
     $this->session->clear();
@@ -74,6 +82,9 @@ class AccountController extends Controller
     return $this->redirect('/');
   }
 
+  /**
+   * ログイン処理をする
+   */
   public function AuthenticateAction()
   {
  

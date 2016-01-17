@@ -15,16 +15,6 @@
 </form>
 <?php endif; ?>
 
-
-<?php if($session->isAuthenticated()): ?>
-  <?php echo "hello " . $user['user_name']; ?><br />
-  <a href="<?php echo $base_url; ?>/account/logout">ログアウト</a>
-<?php else: ?>
-  <a href="<?php echo $base_url; ?>/account/login">ログイン</a>
-  <a href="<?php echo $base_url; ?>/account/signup">アカウント登録</a>
-<?php endif; ?>
-
-
 <div id="tweets">
 <?php foreach ($tweets as $tweet): ?>
   <?php echo $this->render('tweet/tweet', array('tweet' => $tweet)); ?>

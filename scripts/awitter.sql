@@ -2,7 +2,7 @@ create table user(
   id integer auto_increment,
   user_name varchar(20) not null,
   password varchar(255) not null,
-  delete_flag tinyint zerofill not null,
+  delete_flag tinyint(1) zerofill not null,
   updated_at datetime,
   created_at datetime,
   primary key(id),
@@ -13,7 +13,7 @@ create table follow(
   id integer auto_increment,
   user_id integer,
   following_id integer,
-  delete_flag tinyint zerofill not null,
+  delete_flag tinyint(1) zerofill not null,
   updated_at datetime,
   created_at datetime,
   primary key(id, user_id, following_id)

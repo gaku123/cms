@@ -11,9 +11,23 @@ Awitter
 </head>
 <body>
 
-  <div id="header">
+  <header>
+
     <h1><a href="<?php echo $base_url; ?>/">Awitter</a></h1>
-  </div>
+
+    <nav>
+      <ul>
+        <li><a href="<?php echo $base_url; ?>/">ホーム</a></li>
+        <?php if($session->isAuthenticated()): ?>
+        <li><a href="<?php echo $base_url; ?>/account/logout">ログアウト</a></li>
+        <?php else: ?>
+        <li><a href="<?php echo $base_url; ?>/account/login">ログイン</a></li>
+        <li><a href="<?php echo $base_url; ?>/account/signup">アカウント登録</a></li>
+        <?php endif; ?>
+      </ul>
+    </nav>
+
+  </header>
 
   <div id="main">
     <?php echo $_content; ?>
