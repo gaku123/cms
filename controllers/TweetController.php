@@ -1,7 +1,17 @@
 <?php
 
+/**
+ * ツイートに関する処理をするコントローラ
+ */
 class TweetController extends Controller
-{ 
+{
+  protected $auth_actions = array('post','follow');
+
+  /**
+   * トップページ。
+   * ログインしていたらユーザのホーム。
+   * ツイートもここでできる。
+   */
   public function indexAction()
   {
     $user = $this->session->get('user');
@@ -21,6 +31,9 @@ class TweetController extends Controller
     ));
   }
 
+  /**
+   * ツイート処理をする
+   */
   public function postAction()
   { 
     // POSTじゃなかったらはじく
@@ -70,9 +83,20 @@ class TweetController extends Controller
     $tweets = $this->db_manager->get('Tweet')
       ->fetchAllByUserId($user['id']);
 
+    $following = null;
+    if ($this->session->isAuthenticated()) {
+      $me = $this->session->get('user');
+      if ($me['id'] !== $user['id']) {
+        $following = $this->db_manager->get('Follow')
+          ->isFollowing($me['id'], $user['id']);
+      }
+    }
+
     return $this->render(array(
       'user'   => $user,
       'tweets' => $tweets,
+      'following' => $following,
+      '_token' => $this->generateCsrfToken('tweet/follow'),
     ));
   }
 
@@ -89,6 +113,40 @@ class TweetController extends Controller
     }
 
     return $this->render(array('tweet' => $tweet));
+  }
+
+  /**
+   * フォロー処理をする
+   */
+  public function followAction()
+  {
+    // POSTじゃなかったらはじく
+    if (!$this->request->isPost()) {
+      $this->forward404();
+    }
+
+    $following_name = $this->request->getPost('following_name');
+    if (!$following_name) {
+      $this->forward404();
+    }
+
+    // CSRF対策
+    $token = $this->request->getPost('_token');
+    if (!$this->checkCsrfToken('tweet/follow', $token)) {
+      return $this->redirect('/tweet/show/' . $following_name);
+    }
+
+    $follow_user = $this->db_manager->get('User')
+      ->fetchByUserName($following_name);
+    if (!$follow_user) {
+      $this->forward404();
+    }
+
+    $user = $this->session->get('user');
+
+    $this->db_manager->get('Follow')->follow($user['id'], $follow_user['id']);
+
+    return $this->redirect('/tweet/show/' . $following_name);
   }
 
 } 

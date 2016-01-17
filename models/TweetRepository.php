@@ -48,7 +48,6 @@ class TweetRepository extends DbRepository
       ':created_at' => $now->format('Y-m-d H:i:s'),
       ':updated_at' => $now->format('Y-m-d H:i:s'),
      ));
-
   }
 
   /**
@@ -61,7 +60,8 @@ class TweetRepository extends DbRepository
   {
     $sql = "
       select t.*, u.user_name from tweet t join user u on t.user_id = u.id
-      where u.id = :user_id order by t.created_at desc
+      left join follow f on f.following_id = t.user_id and f.user_id = :user_id
+      where u.id = :user_id or f.user_id = :user_id order by t.created_at desc
     ";
 
     return $this->fetchAll($sql, array(':user_id' => $user_id));
@@ -105,7 +105,7 @@ class TweetRepository extends DbRepository
 
     return $this->fetch($sql, array(
       ':user_name' => $user_name,
-      ':id' => $id,
+      ':id'        => $id,
     ));
   }
 
