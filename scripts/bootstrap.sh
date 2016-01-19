@@ -51,7 +51,7 @@ service php-fpm start
 sudo yum install -y mysql mysql-server
 chkconfig mysqld on
 service mysqld start
-yum -y install php-pdo php-mysql
+yum -y install php-pdo php-mysql php-mbstring
 cat << _EOT_ > /usr/share/nginx/html/helo.php
 <?php
 ini_set('display_errors',1);
