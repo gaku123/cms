@@ -18,6 +18,7 @@ Awitter
     <nav>
       <ul>
         <li><a href="<?php echo $base_url; ?>/">ホーム</a></li>
+        <li><a href="<?php echo $base_url; ?>/tweet/all">全体のタイムライン</a></li>
         <?php if($session->isAuthenticated()): ?>
         <li><a href="<?php echo $base_url; ?>/account/logout">ログアウト</a></li>
         <?php else: ?>
