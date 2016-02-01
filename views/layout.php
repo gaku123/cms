@@ -15,7 +15,6 @@ Awitter
 
   <div id="doc">
 
-<<<<<<< HEAD
     <header id="header-container">
       <div class="header">
         <div class="header-top">
@@ -35,6 +34,11 @@ Awitter
             <li class="nav-item">
               <div class="nav-itemInner">
                 <a class="nav-itemName" href="<?php echo $base_url; ?>/">ホーム</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <div class="nav-itemInner">
+                <a class="nav-itemName" href="<?php echo $base_url; ?>/tweet/all">全体のタイムライン</a>
               </div>
             </li>
             <?php if($session->isAuthenticated()): ?>
@@ -63,20 +67,6 @@ Awitter
     <div id="main" class="content" id="timeline">
       <?php echo $_content; ?>
     </div>
-=======
-    <nav>
-      <ul>
-        <li><a href="<?php echo $base_url; ?>/">ホーム</a></li>
-        <li><a href="<?php echo $base_url; ?>/tweet/all">全体のタイムライン</a></li>
-        <?php if($session->isAuthenticated()): ?>
-        <li><a href="<?php echo $base_url; ?>/account/logout">ログアウト</a></li>
-        <?php else: ?>
-        <li><a href="<?php echo $base_url; ?>/account/login">ログイン</a></li>
-        <li><a href="<?php echo $base_url; ?>/account/signup">アカウント登録</a></li>
-        <?php endif; ?>
-      </ul>
-    </nav>
->>>>>>> 339dae96004b0b81aea183678fa560c6048ece4b
 
     <div class="footer">
       <ul class="footer-list">
