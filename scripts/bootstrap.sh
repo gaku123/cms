@@ -36,7 +36,7 @@ service memcached start
 chkconfig memcached on
 
 ### PHP ###
-yum install -y php-fpm php-cli php-pecl-memcache
+yum install -y php-fpm php-cli php-pecl-memcached
 sed -i -e 's/user = apache/user = nginx/g' /etc/php-fpm.d/www.conf
 sed -i -e 's/group = apache/group = nginx/g' /etc/php-fpm.d/www.conf
 chkconfig php-fpm on
