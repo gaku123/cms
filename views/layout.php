@@ -21,8 +21,12 @@ Awitter
           <div class="header-img" style="background-image: url(/images/header.png);"></div>
           <div class="header-buttons">
             <h1 class="reset"><a href="/" class="icon">Awitter</a></h1>
-            <a class="button" href="https://twitter.com/signup">新規登録</a>
+            <?php if($session->isAuthenticated()): ?>
+            <a class="button" href="<?php echo $base_url; ?>/account/logout">ログアウト</a>
+            <?php else: ?>
+            <a class="button" href="<?php echo $base_url; ?>/account/signup">新規登録</a>
             <button class="login button" type="submit">ログイン</button>
+            <?php endif; ?>
           </div>
           <div class="header-content">
             <h2 class="header-title">「いま」起きていることを見つけよう。</h2>
