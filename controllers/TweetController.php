@@ -32,6 +32,21 @@ class TweetController extends Controller
   }
 
   /**
+   * 全体のタイムライン
+   */
+  public function allAction()
+  {
+    $user = $this->session->get('user');
+    $tweets = $this->db_manager->get('Tweet')->fetchAllTweets();
+
+    return $this->render(array(
+      'user'   => $user,
+      'tweets' => $tweets,
+    ));
+  }
+
+
+  /**
    * ツイート処理をする
    */
   public function postAction()
