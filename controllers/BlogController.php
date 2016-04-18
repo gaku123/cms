@@ -3,7 +3,7 @@
 /**
  * ツイートに関する処理をするコントローラ
  */
-class TweetController extends Controller
+class BlogController extends Controller
 {
   protected $auth_actions = array('post','follow');
 
@@ -15,20 +15,20 @@ class TweetController extends Controller
   public function indexAction()
   {
     $user = $this->session->get('user');
-
+/*
     if ($user) {
       $tweets = $this->db_manager->get('Tweet')
         ->fetchAllPersonalTweetsByUserId($user['id']);
     } else {
       $tweets = $this->db_manager->get('Tweet')->fetchAllTweets();
     }
-
-    return $this->render(array(
+*/
+    return $this->render();/*array(
       'user'   => $user,
       'tweets' => $tweets,
       'body'   => '',
       '_token' => $this->generateCsrfToken('tweet/index'),
-    ));
+    ));*/
   }
 
   /**

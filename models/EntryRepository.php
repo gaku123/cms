@@ -1,6 +1,6 @@
 <?php
 
-class TweetRepository extends DbRepository
+class BlogRepository extends DbRepository
 {
   /**
    * ツイート登録処理

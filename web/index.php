@@ -1,7 +1,7 @@
 <?php
 
 require '../bootstrap.php';
-require '../AwitterApplication.php';
+require '../GpressApplication.php';
 
-$app = new AwitterApplication(true);
+$app = new GpressApplication(true);
 $app->run();

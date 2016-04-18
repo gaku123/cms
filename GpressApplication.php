@@ -3,7 +3,7 @@
 /**
  * アプリケーションを表すクラス
  */
-class AwitterApplication extends Application
+class GpressApplication extends Application
 {
   protected $login_action = array('account', 'login');
 
@@ -13,7 +13,7 @@ class AwitterApplication extends Application
   {
     return array(
       '/'
-        => array('controller' => 'tweet', 'action' => 'index'),
+        => array('controller' => 'blog', 'action' => 'index'),
       '/account/:action'
         => array('controller' => 'account'),
       '/tweet/:action'
@@ -33,9 +33,9 @@ class AwitterApplication extends Application
   protected function configure()
   {
     $this->db_manager->connect('master', array(
-      'dsn'    => 'mysql:dbname=awitter;host=localhost',
+      'dsn'    => 'mysql:dbname=gpress;host=localhost',
       'user'   => 'atm-user',
-      'password' => 'awitter_dbpass',
+      'password' => 'gpress_dbpass',
     ));
   }
 
