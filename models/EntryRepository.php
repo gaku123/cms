@@ -1,11 +1,11 @@
 <?php
 
-class BlogRepository extends DbRepository
+class EntryRepository extends DbRepository
 {
   /**
-   * ツイート登録処理
+   * ブログ投稿処理
    *
-   * 本文のバリデーションも行い、エラー文書の配列を返す。
+   * バリデーションも行い、エラー文書の配列を返す。
    */
   public function post($user_id, $body)
   {
@@ -51,17 +51,14 @@ class BlogRepository extends DbRepository
   }
 
   /**
-   * 指定されたユーザのツイートとフォローしているユーザのツイートを返す。
-   *
-   * tweetテーブルとuserテーブルを表結合し、
-   * tweetテーブル全てとuserテーブルのuser_nameを選択して返す。
+   * 指定されたブログの投稿を全て返す。
    */
-  public function fetchAllPersonalTweetsByUserId($user_id)
+  public function fetchAllEntriesByBlogId($blog_id)
   {
     $sql = "
-      select t.*, u.user_name from tweet t join user u on t.user_id = u.id
+      select e.*, u.user_name from entry e join user u on e.user_id = u.id
       left join follow f on f.following_id = t.user_id and f.user_id = :user_id
-      where u.id = :user_id or f.user_id = :user_id order by t.created_at desc
+      r_id or f.user_id = :user_id order by t.created_at desc
     ";
 
     return $this->fetchAll($sql, array(':user_id' => $user_id));
@@ -86,14 +83,14 @@ class BlogRepository extends DbRepository
    * tweetテーブルとuserテーブルを表結合し、
    * tweetテーブル全てとuserテーブルのuser_nameを選択して返す。
    */
-  public function fetchAllByUserId($user_id)
+  public function fetchAllByBlogId($blog_id)
   {
     $sql = "
-      select t.*, u.user_name from tweet t join user u on t.user_id = u.id
-      where u.id = :user_id order by t.created_at desc
+      select e.*, u.user_name from entry e join user u on e.user_id = u.id
+      where e.id = :blog_id order by e.created_at desc
     ";
 
-    return $this->fetchAll($sql, array(':user_id' => $user_id));
+    return $this->fetchAll($sql, array(':blog_id' => $blog_id));
   }
 
   public function fetchByIdAndUserName($id, $user_name)

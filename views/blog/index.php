@@ -1,22 +1,10 @@
-<?php $this->setLayoutVar('title', 'Top') ?>
+<?php $this->setLayoutVar('title', '爽コード') ?>
 
-<h2>Wellcome</h2>
-
-<?php //エラーがあった場合の処理 ?>
-<?php if (isset($errors) && count($errors) > 0): ?>
-  <?php echo $this->render('errors', array('errors' => $errors)); ?>
-<?php endif; ?>
-
-<?php if($session->isAuthenticated()): ?>
-<form action="/tweet/post" method="post">
-  <p><input type="text" name="body" value="<?php echo $this->escape($body); ?>"></p>
-  <p><input type="submit" value="ツイート"></p>
-  <input type="hidden" name="_token" value="<?php echo $this->escape($_token); ?>" />
-</form>
-<?php endif; ?>
-
-<div id="tweets">
-<?php foreach ($tweets as $tweet): ?>
-  <?php echo $this->render('tweet/tweet', array('tweet' => $tweet)); ?>
+<div id="entries">
+<?php foreach ($entries as $entry): ?>
+  <?php echo $this->render('blog/entry', array('entry' => $entry)); ?>
 <?php endforeach; ?>
 </div>
+
+
+

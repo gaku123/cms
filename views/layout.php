@@ -13,72 +13,29 @@ Awitter
 
 <body class="" dir="ltr">
 
-  <div id="doc">
-
-    <header id="header-container">
-      <div class="header">
-        <div class="header-top">
-          <div class="header-img" style="background-image: url(/images/header.png);"></div>
-          <div class="header-buttons">
-            <h1 class="reset"><a href="/" class="icon">Awitter</a></h1>
-            <?php if($session->isAuthenticated()): ?>
-            <a class="button" href="<?php echo $base_url; ?>/account/logout">ログアウト</a>
-            <?php else: ?>
-            <a class="button" href="<?php echo $base_url; ?>/account/signup">新規登録</a>
-            <button class="login button" type="submit">ログイン</button>
-            <?php endif; ?>
-          </div>
-          <div class="header-content">
-            <h2 class="header-title">「いま」起きていることを見つけよう。</h2>
-              <p class="header-blurb">好きなものについてのコミュニティや会話、ひらめきを見つけよう。</p>
-          </div>
-        </div>
-        <nav id="nav">
-          <ul>
-            <li class="nav-item">
-              <div class="nav-itemInner">
-                <a class="nav-itemName" href="<?php echo $base_url; ?>/">ホーム</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <div class="nav-itemInner">
-                <a class="nav-itemName" href="<?php echo $base_url; ?>/tweet/all">全体のタイムライン</a>
-              </div>
-            </li>
-            <?php if($session->isAuthenticated()): ?>
-            <li class="nav-item">
-              <div class="nav-itemInner">
-                <a class="nav-itemName" href="<?php echo $base_url; ?>/account/logout">ログアウト</a>
-              </div>
-            </li>
-            <?php else: ?>
-            <li class="nav-item">
-              <div class="nav-itemInner">
-                <a class="nav-itemName" href="<?php echo $base_url; ?>/account/login">ログイン</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <div class="nav-itemInner">
-                <a class="nav-itemName" href="<?php echo $base_url; ?>/account/signup">アカウント登録</a>
-              </div>
-            </li>
-            <?php endif; ?>
-          </ul>
-        </nav>
-      </div>
-    </header>
-
-    <div id="main" class="content" id="timeline">
-      <?php echo $_content; ?>
-    </div>
-
-    <div class="footer">
-      <ul class="footer-list">
-        <li class="footer-item"><a href="/about">Awitterについて</a></li>
-        <li class="footer-item footer-copyright">© 2016 Awitter</li>
+  <header id="header">
+    <nav id="nav">
+      <ul>
+        <li class="nav-item"><a class="nav-itemName" href="<?php echo $base_url; ?>/">Gpress</a></li>
+        <?php if($session->isAuthenticated()): ?>
+        <li class="nav-item"><a class="nav-itemName" href="<?php echo $base_url; ?>/account/logout">ログアウト</a></li>
+        <?php endif; ?>
       </ul>
-    </div>
+    </nav>
+  </header>
 
+  <h1>爽コード</h1>
+  <h2>ラムネ、風鈴、田舎、新緑、こいのぼり</h2>
+
+  <div id="main" class="content" id="timeline">
+    <?php echo $_content; ?>
+  </div>
+
+  <div class="footer">
+    <ul class="footer-list">
+      <li class="footer-item"><a href="/about">Gpressについて</a></li>
+      <li class="footer-item footer-copyright">© 2016 Gpresss</li>
+    </ul>
   </div>
 
 </body>

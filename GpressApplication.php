@@ -35,8 +35,12 @@ class GpressApplication extends Application
     $this->db_manager->connect('master', array(
       'dsn'    => 'mysql:dbname=gpress;host=localhost',
       'user'   => 'atm-user',
-      'password' => 'gpress_dbpass',
+      'password' => 'gp_dbpass',
     ));
+
+    $blog_url = $_SERVER["SERVER_NAME"];
+    $this->session->set('blog', $this->db_manager->get('Blog')->fetchByBlogUrl($blog_url));
+ 
   }
 
 }
