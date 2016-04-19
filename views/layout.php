@@ -16,7 +16,7 @@ Awitter
   <header id="header">
     <nav id="nav">
       <ul>
-        <li class="nav-item"><a class="nav-itemName" href="<?php echo $base_url; ?>/">Gpress</a></li>
+        <li class="nav-item"><a class="nav-itemName" href="gpress.com">Gpress</a></li>
         <?php if($session->isAuthenticated()): ?>
         <li class="nav-item"><a class="nav-itemName" href="<?php echo $base_url; ?>/account/logout">ログアウト</a></li>
         <?php endif; ?>
